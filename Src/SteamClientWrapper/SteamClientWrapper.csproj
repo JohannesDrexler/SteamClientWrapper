@@ -13,6 +13,10 @@
     <Description>Wrapper for valves steam client application</Description>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\SteamClientWrapper.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="PresentationFramework" />
   </ItemGroup>
