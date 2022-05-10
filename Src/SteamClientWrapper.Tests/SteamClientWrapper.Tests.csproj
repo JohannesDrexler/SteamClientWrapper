@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+		<DebugType>full</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Samples\appmanifest_1085660_Destiny2.acf" />
+	  <None Remove="Samples\appmanifest_250400_howToSurvive.acf" />
+	  <None Remove="Samples\appmanifest_730_CSGO.acf" />
+	  <None Remove="Samples\appmanifest_782330_DoomEternal.acf" />
+	  <None Remove="Samples\coplay_76561198058922330.vdf" />
+	  <None Remove="Samples\libraryfolders.vdf" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Samples\appmanifest_1085660_Destiny2.acf" />
+	  <EmbeddedResource Include="Samples\appmanifest_250400_howToSurvive.acf" />
+	  <EmbeddedResource Include="Samples\appmanifest_730_CSGO.acf" />
+	  <EmbeddedResource Include="Samples\appmanifest_782330_DoomEternal.acf" />
+	  <EmbeddedResource Include="Samples\coplay_76561198058922330.vdf" />
+	  <EmbeddedResource Include="Samples\libraryfolders.vdf" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
+		<PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\SteamClientWrapper\SteamClientWrapper.csproj" />
+	</ItemGroup>
+
+</Project>

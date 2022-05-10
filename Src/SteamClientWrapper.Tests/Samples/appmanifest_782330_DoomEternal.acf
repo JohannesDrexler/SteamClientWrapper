@@ -1,0 +1,77 @@
+"AppState"
+{
+	"appid"		"782330"
+	"Universe"		"1"
+	"LauncherPath"		"D:\\Programme\\Steam\\steam.exe"
+	"name"		"DOOM Eternal"
+	"StateFlags"		"4"
+	"installdir"		"DOOMEternal"
+	"LastUpdated"		"1620302443"
+	"UpdateResult"		"0"
+	"SizeOnDisk"		"72945160396"
+	"buildid"		"6311698"
+	"LastOwner"		"76561198058922330"
+	"BytesToDownload"		"66106036640"
+	"BytesDownloaded"		"66106036640"
+	"BytesToStage"		"72945160396"
+	"BytesStaged"		"72945160396"
+	"AutoUpdateBehavior"		"2"
+	"AllowOtherDownloadsWhileRunning"		"0"
+	"ScheduledAutoUpdate"		"0"
+	"InstalledDepots"
+	{
+		"782332"
+		{
+			"manifest"		"3502129934461513964"
+			"size"		"445845708"
+		}
+		"782333"
+		{
+			"manifest"		"5411768331560169102"
+			"size"		"1052"
+		}
+		"782334"
+		{
+			"manifest"		"2504597987456533562"
+			"size"		"3304906634"
+		}
+		"782335"
+		{
+			"manifest"		"1507610446911143862"
+			"size"		"1712975852"
+		}
+		"782338"
+		{
+			"manifest"		"4899404039317730890"
+			"size"		"249"
+		}
+		"782336"
+		{
+			"manifest"		"7617208720152231009"
+			"size"		"59541767141"
+		}
+		"782337"
+		{
+			"manifest"		"6155259525945045486"
+			"size"		"7914193408"
+		}
+		"782339"
+		{
+			"manifest"		"8194373833796568695"
+			"size"		"25471653"
+		}
+	}
+	"InstallScripts"
+	{
+		"782332"		"installscript.vdf"
+	}
+	"SharedDepots"
+	{
+		"228988"		"228980"
+		"228990"		"228980"
+	}
+	"UserConfig"
+	{
+		"language"		"english"
+	}
+}

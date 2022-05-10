@@ -1,0 +1,57 @@
+"AppState"
+{
+	"appid"		"250400"
+	"Universe"		"1"
+	"LauncherPath"		"D:\\Programme\\Steam\\steam.exe"
+	"name"		"How to Survive"
+	"StateFlags"		"4"
+	"installdir"		"How to Survive"
+	"LastUpdated"		"1620763080"
+	"UpdateResult"		"0"
+	"SizeOnDisk"		"6516670874"
+	"buildid"		"494042"
+	"LastOwner"		"76561198058922330"
+	"BytesToDownload"		"2461672320"
+	"BytesDownloaded"		"2461672320"
+	"BytesToStage"		"6516670874"
+	"BytesStaged"		"6516670874"
+	"AutoUpdateBehavior"		"1"
+	"AllowOtherDownloadsWhileRunning"		"0"
+	"ScheduledAutoUpdate"		"0"
+	"InstalledDepots"
+	{
+		"250401"
+		{
+			"manifest"		"7861052526974968690"
+			"size"		"5568887712"
+		}
+		"250404"
+		{
+			"manifest"		"2754529792484238927"
+			"size"		"208188722"
+		}
+		"289730"
+		{
+			"manifest"		"1712826379668514717"
+			"size"		"739594440"
+			"dlcappid"		"289730"
+		}
+	}
+	"SharedDepots"
+	{
+		"228984"		"228980"
+		"228990"		"228980"
+	}
+	"DlcDownloads"
+	{
+		"289730"
+		{
+			"BytesDownloaded"		"280071088"
+			"BytesToDownload"		"280071088"
+		}
+	}
+	"UserConfig"
+	{
+		"language"		"english"
+	}
+}
