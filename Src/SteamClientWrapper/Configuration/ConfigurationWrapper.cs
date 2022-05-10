@@ -1,11 +1,11 @@
-﻿using SteamWrapper.Resources;
-using SteamWrapper.Types;
+﻿using SteamClientWrapper.Resources;
+using SteamClientWrapper.Types;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace SteamWrapper.Configuration
+namespace SteamClientWrapper.Configuration
 {
     public class ConfigurationWrapper
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace SteamWrapper
+namespace SteamClientWrapper
 {
     public class SteamManifest
     {

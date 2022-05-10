@@ -1,4 +1,4 @@
-﻿namespace SteamWrapper.Types
+﻿namespace SteamClientWrapper.Types
 {
     /// <summary>
     /// Describes what can be cleaned up or was cleaned up

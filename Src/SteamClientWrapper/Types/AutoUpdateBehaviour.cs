@@ -1,4 +1,4 @@
-﻿namespace SteamWrapper.Types
+﻿namespace SteamClientWrapper.Types
 {
     /// <summary>
     /// Represents the configured autoupdate-behaviour

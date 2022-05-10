@@ -1,4 +1,4 @@
-﻿namespace SteamWrapper.Types
+﻿namespace SteamClientWrapper.Types
 {
     /// <summary>
     /// Represents the status of a game

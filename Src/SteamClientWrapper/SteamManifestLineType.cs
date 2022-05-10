@@ -1,4 +1,4 @@
-﻿namespace SteamWrapper
+﻿namespace SteamClientWrapper
 {
     internal enum SteamManifestLineType
     {

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace SteamWrapper.Types
+namespace SteamClientWrapper.Types
 {
     [DebuggerDisplay("AccName={AcountName} NickName={PersonalName}]")]
     public class SteamUser

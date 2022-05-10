@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SteamWrapper
+namespace SteamClientWrapper
 {
     public class SteamManifestNode
     {

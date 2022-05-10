@@ -1,10 +1,10 @@
-﻿using SteamWrapper.Configuration;
-using SteamWrapper.Resources;
+﻿using SteamClientWrapper.Configuration;
+using SteamClientWrapper.Resources;
 using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace SteamWrapper.Types
+namespace SteamClientWrapper.Types
 {
     /// <summary>
     /// This describes a game installed in steam.

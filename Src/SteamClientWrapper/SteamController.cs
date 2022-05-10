@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace SteamWrapper
+namespace SteamClientWrapper
 {
     public class SteamController : ISteamController
     {

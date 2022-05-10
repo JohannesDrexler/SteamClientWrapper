@@ -1,12 +1,12 @@
 using Microsoft.Win32;
-using SteamWrapper.Configuration;
-using SteamWrapper.Types;
+using SteamClientWrapper.Configuration;
+using SteamClientWrapper.Types;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SteamWrapper
+namespace SteamClientWrapper
 {
     public class SteamInfo
     {

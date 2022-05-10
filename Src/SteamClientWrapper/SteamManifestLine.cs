@@ -1,4 +1,4 @@
-﻿namespace SteamWrapper
+﻿namespace SteamClientWrapper
 {
     internal class SteamManifestLine
     {

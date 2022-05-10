@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Text;
 
-namespace SteamWrapper
+namespace SteamClientWrapper
 {
     internal class SteamManifestPathHelper
     {

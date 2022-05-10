@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace SteamWrapper
+namespace SteamClientWrapper
 {
     [Serializable]
     public class FileIsBinaryException : Exception

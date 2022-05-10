@@ -1,11 +1,11 @@
-﻿using SteamWrapper.Configuration;
-using SteamWrapper.Resources;
+﻿using SteamClientWrapper.Configuration;
+using SteamClientWrapper.Resources;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace SteamWrapper.Types
+namespace SteamClientWrapper.Types
 {
     public class SteamLibrary : List<SteamGame>
     {
