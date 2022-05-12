@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace SteamClientWrapper
 {
+    /// <summary>
+    /// This class accesses steams client
+    /// </summary>
     public class SteamInfo
     {
-        #region fields and Properties
-
         /// <summary>
         /// Returns wether a steam-installation could be found
         /// </summary>
@@ -46,8 +47,6 @@ namespace SteamClientWrapper
                 _configuration = value;
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Creates a new instance of SteamInfo. Calls 'Refresh()' on creation

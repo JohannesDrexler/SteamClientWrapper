@@ -7,9 +7,19 @@ using System.Linq;
 
 namespace SteamClientWrapper.Types
 {
+    /// <summary>
+    /// This describes a library
+    /// </summary>
     public class SteamLibrary : List<SteamGame>
     {
+        /// <summary>
+        /// ConfigurationWrapper to access steams configuration
+        /// </summary>
         public ConfigurationWrapper ConfigurationWrapper { get; }
+
+        /// <summary>
+        /// Directory of the library
+        /// </summary>
         public string LibDirectory { get; }
 
         private SteamLibrary()
@@ -57,7 +67,7 @@ namespace SteamClientWrapper.Types
                         SteamManifest mf = new SteamManifest();
                         mf.Load(stream);
 
-                        SteamGame game = new SteamGame(mf, ConfigurationWrapper, this);
+                        SteamGame game = new SteamGame(mf, this);
                         games.Add(game);
                     }
                     catch (Exception ex)
@@ -224,6 +234,10 @@ namespace SteamClientWrapper.Types
             }
         }
 
+        /// <summary>
+        /// Estimates how big a libary could be based on the game manifests of the library
+        /// </summary>
+        /// <returns>Returns an estimated size</returns>
         public long GetEstimatedLibSize()
         {
             long result = 0;

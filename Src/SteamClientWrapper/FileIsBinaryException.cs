@@ -3,10 +3,15 @@ using System.Runtime.Serialization;
 
 namespace SteamClientWrapper
 {
+    /// <summary>
+    /// This exception is thrown when a file is expected to be readable but is binary
+    /// </summary>
     [Serializable]
     public class FileIsBinaryException : Exception
     {
+#pragma warning disable CS1591 
         public FileIsBinaryException()
+
         {
         }
 
@@ -21,5 +26,6 @@ namespace SteamClientWrapper
         protected FileIsBinaryException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+#pragma warning restore CS1591
     }
 }
