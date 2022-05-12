@@ -7,22 +7,40 @@ using System.IO;
 
 namespace SteamClientWrapper.Configuration
 {
+    /// <summary>
+    /// This class accesses the clients configuration
+    /// </summary>
     public class ConfigurationWrapper
     {
         private readonly Dictionary<string, SteamManifest> configs = new Dictionary<string, SteamManifest>();
+
+        /// <summary>
+        /// List of configuration files
+        /// </summary>
         public IReadOnlyDictionary<string, SteamManifest> Configs
         {
             get => configs;
         }
 
         private readonly Dictionary<long, SteamUser> users = new Dictionary<long, SteamUser>();
+
+        /// <summary>
+        /// List of users using the client installation
+        /// </summary>
         public IReadOnlyDictionary<long, SteamUser> Users
         {
             get => users;
         }
 
+        /// <summary>
+        /// Directory of the steam directory
+        /// </summary>
         public string SteamDirectory { get; }
 
+        /// <summary>
+        /// Creates a new instance
+        /// </summary>
+        /// <param name="steamDirectory">Directory of the steam installation, must not be null or empty, directory must be accessable</param>
         public ConfigurationWrapper(string steamDirectory)
         {
             if (string.IsNullOrEmpty(steamDirectory))
@@ -38,14 +56,27 @@ namespace SteamClientWrapper.Configuration
             Refresh();
         }
 
+        /// <summary>
+        /// Refreshes this instances caches and rereads data from configuration files
+        /// </summary>
         public void Refresh()
         {
             Trace.TraceInformation(Messages.RefreshingConfigurationWrapper);
 
-            //configs
+            RefreshConfigs();
+            RefreshUsers();
+        }
+
+        /// <summary>
+        /// Refreshes the configcache
+        /// </summary>
+        private void RefreshConfigs()
+        {
             configs.Clear();
+
             string configFolder = Path.Combine(SteamDirectory, "config");
             string[] configFiles = Directory.GetFiles(configFolder, "*.vdf");
+
             foreach (var configPath in configFiles)
             {
                 try
@@ -79,29 +110,55 @@ namespace SteamClientWrapper.Configuration
                     throw new Exception(string.Format(Messages.FailedToReadFile, configPath), ex);
                 }
             }
+        }
 
-            //users
+        /// <summary>
+        /// Refreshes the user cache. Requires config cache to be initialized
+        /// </summary>
+        private void RefreshUsers()
+        {
             users.Clear();
-            SteamManifest userConfig = Configs["loginusers.vdf"];
-            List<SteamUser> usersFromConfig = ReadUsersFromConfig(userConfig);
-            foreach (var user in usersFromConfig)
+
+            string userConfigFule = "loginusers.vdf";
+
+            if (Configs.TryGetValue(userConfigFule, out SteamManifest userConfig))
             {
-                users.Add(user.UserId, user);
+                List<SteamUser> usersFromConfig = ReadUsersFromConfig(userConfig);
+
+                foreach (var user in usersFromConfig)
+                {
+                    users.Add(user.UserId, user);
+                }
             }
         }
 
+        /// <summary>
+        /// Reads the loginusers.vdf and returns a list of users
+        /// </summary>
+        /// <param name="doc">Document to read, must not be null</param>
+        /// <returns>Returns a list of users</returns>
         private List<SteamUser> ReadUsersFromConfig(SteamManifest doc)
         {
             var result = new List<SteamUser>();
-            SteamManifestNode usersNode = doc.GetNode("users");
-            foreach (KeyValuePair<string, SteamManifestNode> userNodeKvp in usersNode.ChildNodes)
+
+            if (doc == null)
             {
-                SteamManifestNode userNode = userNodeKvp.Value;
-                long userId = long.Parse(userNode.Name);
-                string accountName = userNode.Values["AccountName"];
-                string personalName = userNode.Values["PersonaName"];
-                var user = new SteamUser(userId, accountName, personalName);
-                result.Add(user);
+                throw new ArgumentNullException(nameof(doc));
+            }
+
+            SteamManifestNode usersNode = doc.GetNode("users");
+
+            if (usersNode != null)
+            {
+                foreach (KeyValuePair<string, SteamManifestNode> userNodeKvp in usersNode.ChildNodes)
+                {
+                    SteamManifestNode userNode = userNodeKvp.Value;
+                    long userId = long.Parse(userNode.Name);
+                    string accountName = userNode.Values["AccountName"];
+                    string personalName = userNode.Values["PersonaName"];
+                    var user = new SteamUser(userId, accountName, personalName);
+                    result.Add(user);
+                }
             }
 
             return result;

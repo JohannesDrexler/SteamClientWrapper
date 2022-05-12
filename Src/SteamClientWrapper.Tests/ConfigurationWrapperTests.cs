@@ -14,7 +14,6 @@ namespace SteamClientWrapper.Tests
         public void TestInitialize()
         {
             SteamInfo info = new SteamInfo();
-            info.Refresh();
             instance = info.Configuration;
         }
 

@@ -45,6 +45,15 @@ namespace SteamClientWrapper.Tests
         }
 
         [TestMethod]
+        public void SteamManifest_GetNode_NotFound()
+        {
+            SteamManifest csGoManifest = GetCsGoManifest();
+
+            SteamManifestNode node = csGoManifest.GetNode("thisNodeDoesNotExist");
+            Assert.IsNull(node);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void SteamManifest_GetNode_ArgumentException()
         {
