@@ -5,20 +5,36 @@ using System.Linq;
 
 namespace SteamClientWrapper
 {
+    /// <summary>
+    /// Steamcontroller implementation
+    /// </summary>
     public class SteamController : ISteamController
     {
+        /// <summary>
+        /// SteamInfo instance
+        /// </summary>
         public SteamInfo Info { get; private set; }
 
+        /// <summary>
+        /// Creates a new instance
+        /// </summary>
         public SteamController()
         {
             Info = new SteamInfo();
         }
 
+        [Obsolete("Use the parameterless ctor instead.This will overload will be removed in a later version")]
+#pragma warning disable CS1591
         public SteamController(SteamInfo info)
         {
             this.Info = info ?? throw new ArgumentNullException(nameof(info));
         }
+#pragma warning restore CS1591
 
+        /// <summary>
+        /// Returns true if steam is running
+        /// </summary>
+        /// <returns>True if it is running, otherwise false</returns>
         public bool IsRunning()
         {
             bool steamRunning = false;
@@ -33,6 +49,9 @@ namespace SteamClientWrapper
             return steamRunning;
         }
 
+        /// <summary>
+        /// Starts steam
+        /// </summary>
         public void StartSteam()
         {
             if (!IsRunning())
@@ -47,6 +66,10 @@ namespace SteamClientWrapper
             }
         }
 
+        /// <summary>
+        /// Create a process instance 
+        /// </summary>
+        /// <returns>Returns a process instance handling steam.exe</returns>
         private Process CreateProcess()
         {
             Process process = new Process()
@@ -59,11 +82,25 @@ namespace SteamClientWrapper
             return process;
         }
 
+        /// <summary>
+        /// Starts a game
+        /// </summary>
+        /// <param name="appId">Id of the game to start</param>
         public void StartGame(int appId)
         {
-            CallSteam($"-applaunch {appId}");
+            if (appId > 0)
+            {
+                CallSteam($"-applaunch {appId}");
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(appId));
+            }
         }
 
+        /// <summary>
+        /// Stops steam
+        /// </summary>
         public void StopSteam()
         {
             if (IsRunning())
@@ -76,6 +113,10 @@ namespace SteamClientWrapper
             }
         }
 
+        /// <summary>
+        /// Calls steam with the specified arguments
+        /// </summary>
+        /// <param name="args">Arguments</param>
         private void CallSteam(string args = null)
         {
             using (Process process = CreateProcess())
@@ -88,6 +129,9 @@ namespace SteamClientWrapper
             }
         }
 
+        /// <summary>
+        /// Starts steam in big picture mode
+        /// </summary>
         public void StartSteamInBigPictureMode()
         {
             if (!IsRunning())
