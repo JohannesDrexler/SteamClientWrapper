@@ -153,11 +153,15 @@ namespace SteamClientWrapper.Configuration
                 foreach (KeyValuePair<string, SteamManifestNode> userNodeKvp in usersNode.ChildNodes)
                 {
                     SteamManifestNode userNode = userNodeKvp.Value;
-                    long userId = long.Parse(userNode.Name);
-                    string accountName = userNode.Values["AccountName"];
-                    string personalName = userNode.Values["PersonaName"];
-                    var user = new SteamUser(userId, accountName, personalName);
-                    result.Add(user);
+                    if (long.TryParse(userNode.Name, out long userId))
+                    {
+                        string nodePath = $"users/{userId}";
+                        string accountName = doc.GetNodeValue(nodePath, "accountName");
+                        string personalName = doc.GetNodeValue(nodePath, "personaName");
+
+                        var user = new SteamUser(userId, accountName, personalName);
+                        result.Add(user);
+                    }
                 }
             }
 
