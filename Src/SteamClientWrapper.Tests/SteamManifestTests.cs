@@ -24,12 +24,24 @@ namespace SteamClientWrapper.Tests
         }
 
         [TestMethod]
+        public void SteamManifest_GetNodeValue_CanHandleCaseInsensitivity()
+        {
+            SteamManifest csGoManifest = GetCsGoManifest();
+
+            string nodeValue = csGoManifest.GetNodeValue("appstate/userConfig", "language");
+            Assert.IsFalse(string.IsNullOrEmpty(nodeValue));
+        }
+
+        [TestMethod]
         public void SteamManifest_GetNodeValue_ValueNotFound()
         {
             SteamManifest csGoManifest = GetCsGoManifest();
 
             string nodeValue = csGoManifest.GetNodeValue("AppState/UserConfig", "keyWillNotBeFound");
             Assert.IsTrue(string.IsNullOrEmpty(nodeValue));
+
+            string nodeValue2 = csGoManifest.GetNodeValue("AppState/ThisNodeDoesNotExist", "this key does not exist either");
+            Assert.IsTrue(string.IsNullOrEmpty(nodeValue2));
         }
 
         [TestMethod]
@@ -39,9 +51,48 @@ namespace SteamClientWrapper.Tests
 
             SteamManifestNode node = csGoManifest.GetNode("AppState/UserConfig");
             Assert.IsNotNull(node);
-            Assert.AreEqual("AppState/UserConfig", node.Path);
-            Assert.AreEqual("UserConfig", node.Name);
             Assert.IsTrue(node.Values.Count == 1);
+        }
+
+        [TestMethod]
+        public void SteamManifest_GetNode_CanHandleCaseInsensitivity()
+        {
+            SteamManifest csGoManifest = GetCsGoManifest();
+
+            SteamManifestNode node = csGoManifest.GetNode("appstate/userConfig");
+            Assert.IsNotNull(node);
+            Assert.IsTrue(node.Values.Count == 1);
+        }
+
+        [TestMethod]
+        public void SteamManifest_GetNode_NotFound()
+        {
+            SteamManifest csGoManifest = GetCsGoManifest();
+
+            SteamManifestNode node = csGoManifest.GetNode("thisNodeDoesNotExist");
+            Assert.IsNull(node);
+
+            SteamManifestNode subNode = csGoManifest.GetNode("AppState/ThisSubNodeDoesNotExistEither");
+            Assert.IsNull(subNode);
+
+            SteamManifestNode subNodeLevel3 = csGoManifest.GetNode("AppState/InstalledDepots/subLevelTestToTestRecursiveFunction");
+            Assert.IsNull(subNodeLevel3);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void SteamManifest_GetNodeValue_ArgumentExceptionNodePath()
+        {
+            SteamManifest csGoManifest = GetCsGoManifest();
+            csGoManifest.GetNodeValue(null, "installdir");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void SteamManifest_GetNodeValue_ArgumentExceptionValueName()
+        {
+            SteamManifest csGoManifest = GetCsGoManifest();
+            csGoManifest.GetNodeValue("AppState", null);
         }
 
         [TestMethod]

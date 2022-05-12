@@ -5,17 +5,26 @@ using System.Linq;
 
 namespace SteamClientWrapper
 {
+    /// <summary>
+    /// This class can be used to read steams configuration and manifest files
+    /// </summary>
     public class SteamManifest
     {
+        /// <summary>
+        /// Indicates if the vdf file is readably or partially binary
+        /// </summary>
         public bool PartiallyUndefinedContent { get; private set; }
 
+        /// <summary>
+        /// Map of the documents nodes
+        /// </summary>
         private Dictionary<string, SteamManifestNode> Nodes { get; }
             = new Dictionary<string, SteamManifestNode>();
 
         /// <summary>
         /// Tries to load a steamManifest from stream
         /// </summary>
-        /// <exception cref="SteamWrapper.Exceptions.FileIsBinaryException">Thrown when filecontent is binary</exception>
+        /// <exception cref="FileIsBinaryException">Thrown when filecontent is binary</exception>
         /// <param name="stream">Stream containing the document</param>
         public void Load(Stream stream)
         {
@@ -64,6 +73,7 @@ namespace SteamClientWrapper
                             Name = ml.Name,
                             Path = pathHelper.GetCurrentPath()
                         };
+
                         if (!node.Path.Contains('/'))
                         {
                             Nodes.Add(node.Name, node);
@@ -110,10 +120,22 @@ namespace SteamClientWrapper
             }
         }
 
+        /// <summary>
+        /// Returns a nodes value
+        /// </summary>
+        /// <param name="nodePath">Path of the node</param>
+        /// <param name="keyName">Name of the value</param>
+        /// <returns>Returns either a resolved name of null</returns>
         public string GetNodeValue(string nodePath, string keyName)
         {
             SteamManifestNode node = GetNode(nodePath);
-            if (node.Values.TryGetValue(keyName, out string result))
+
+            if (string.IsNullOrEmpty(keyName))
+            {
+                throw new ArgumentNullException(nameof(keyName));
+            }
+
+            if (node != null && node.Values.TryGetValue(keyName.ToLower(), out string result))
             {
                 return result;
             }
@@ -123,6 +145,11 @@ namespace SteamClientWrapper
             }
         }
 
+        /// <summary>
+        /// Returns a node
+        /// </summary>
+        /// <param name="nodePath">Path of the node, f.ex.: "AppState/UserConfig"</param>
+        /// <returns>Returns the specified node if found, otherwise null</returns>
         public SteamManifestNode GetNode(string nodePath)
         {
             if (string.IsNullOrEmpty(nodePath))
@@ -130,14 +157,34 @@ namespace SteamClientWrapper
                 throw new ArgumentNullException(nameof(nodePath));
             }
 
-            string[] pathSegments = nodePath.Split('/');
-            SteamManifestNode node = Nodes[pathSegments[0]];
-            pathSegments = pathSegments.Skip(1).ToArray();
-            foreach (var segment in pathSegments)
+            //Split into path segments and first first node
+            string[] pathSegments = nodePath.ToLower().Split('/');
+            if (Nodes.TryGetValue(pathSegments[0], out SteamManifestNode node))
             {
-                node = node.ChildNodes[segment];
+                //Check if the nodepath has sublevels
+                if (nodePath.Contains('/'))
+                {
+                    pathSegments = pathSegments.Skip(1).ToArray();
+
+                    foreach (var segment in pathSegments)
+                    {
+                        if (node.ChildNodes.TryGetValue(segment, out SteamManifestNode subNode))
+                        {
+                            node = subNode;
+                        }
+                        else
+                        {
+                            node = null;
+                            break;
+                        }
+                    }
+                }
+
+                return node;
             }
-            return node;
+
+            //Fallback
+            return null;
         }
     }
 }
