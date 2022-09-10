@@ -40,8 +40,9 @@ namespace SteamClientWrapper.Types
         }
 
         /// <summary>
-        /// Returns the path where this game is installed. If no library is associated the directory
-        /// won't be full resolved
+        /// Returns the path where this game is installed. 
+        /// If no library is associated the directory won't be full resolved.
+        /// The value is in lower case
         /// </summary>
         public string InstallDir
         {

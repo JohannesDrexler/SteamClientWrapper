@@ -2,6 +2,7 @@
 using SteamClientWrapper.Resources;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -10,6 +11,7 @@ namespace SteamClientWrapper.Types
     /// <summary>
     /// This describes a library
     /// </summary>
+    [DebuggerDisplay("{LibDirectory} ({Count} Games)")]
     public class SteamLibrary : List<SteamGame>
     {
         /// <summary>
@@ -18,7 +20,8 @@ namespace SteamClientWrapper.Types
         public ConfigurationWrapper ConfigurationWrapper { get; }
 
         /// <summary>
-        /// Directory of the library
+        /// Directory of the library.
+        /// Lower case value
         /// </summary>
         public string LibDirectory { get; }
 
@@ -112,8 +115,21 @@ namespace SteamClientWrapper.Types
         /// <returns>Returns a report of how much space can (or was cleaned up from the library)</returns>
         public CleanupReport Cleanup(bool delete = false)
         {
-            var result = new CleanupReport();
+            CleanupReport result = new CleanupReport();
 
+            CleanupCommon(delete, result);
+            CleanupWorkshop(delete, result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// This function will cleanup the common folder. This includes Games/Apps/Sdks
+        /// </summary>
+        /// <param name="delete">Delete files</param>
+        /// <param name="result">CleanupReport instance</param>
+        private void CleanupCommon(bool delete, CleanupReport result)
+        {
             HashSet<string> expected = new HashSet<string>();
             foreach (SteamGame game in this)
             {
@@ -124,6 +140,10 @@ namespace SteamClientWrapper.Types
             if (Directory.Exists(commonPath))
             {
                 string[] foundInCommon = Directory.GetDirectories(commonPath);
+
+                //Cast directories to lowercase
+                foundInCommon = foundInCommon.Select(str => str.ToLower()).ToArray();
+
                 foreach (var foundDir in foundInCommon)
                 {
                     string dirName = Path.GetFileName(foundDir);
@@ -133,7 +153,15 @@ namespace SteamClientWrapper.Types
                     }
                 }
             }
+        }
 
+        /// <summary>
+        /// This function will cleanup all the workshop content
+        /// </summary>
+        /// <param name="delete">Delete files</param>
+        /// <param name="result">CleanupReport instance</param>
+        private void CleanupWorkshop(bool delete, CleanupReport result)
+        {
             string workshopPath = Path.Combine(LibDirectory, "workshop");
             if (Directory.Exists(workshopPath))
             {
@@ -179,9 +207,14 @@ namespace SteamClientWrapper.Types
                         SteamGame matchingGame = GetGameByAppId(appId);
                         if (matchingGame == null)
                         {
+                            result.AddFile(workshopFile);
+
                             FileInfo fi = new FileInfo(workshopFile);
+
+#pragma warning disable CS0618 // Typ oder Element ist veraltet
                             result.Files++;
                             result.Space += fi.Length;
+#pragma warning restore CS0618 // Typ oder Element ist veraltet
 
                             if (delete)
                             {
@@ -191,20 +224,41 @@ namespace SteamClientWrapper.Types
                     }
                 }
             }
-
-            return result;
         }
 
         private void ProcessDirectoryCleanup(CleanupReport result, string foundDir, bool delete = false)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException(nameof(result));
+            }
+
+            if (string.IsNullOrEmpty(foundDir))
+            {
+                throw new ArgumentException("String must not be null or empty", nameof(foundDir));
+            }
+
+            if (!Directory.Exists(foundDir))
+            {
+                return;
+            }
+
+            result.AddDirectory(foundDir);
+
             string[] files = Directory.GetFiles(foundDir, "*", SearchOption.AllDirectories);
             if (files.Length > 0)
             {
+#pragma warning disable CS0618 // Typ oder Element ist veraltet
                 result.Files += files.Length;
+#pragma warning restore CS0618 // Typ oder Element ist veraltet
                 foreach (var fil in files)
                 {
+                    result.AddFile(fil);
+
                     FileInfo fi = new FileInfo(fil);
+#pragma warning disable CS0618 // Typ oder Element ist veraltet
                     result.Space += fi.Length;
+#pragma warning restore CS0618 // Typ oder Element ist veraltet
 
                     if (delete)
                     {
@@ -216,10 +270,14 @@ namespace SteamClientWrapper.Types
             string[] subDirectories = Directory.GetDirectories(foundDir, "*", SearchOption.AllDirectories);
             if (subDirectories.Length > 0)
             {
+#pragma warning disable CS0618 // Typ oder Element ist veraltet
                 result.Directories += subDirectories.Length;
+#pragma warning restore CS0618 // Typ oder Element ist veraltet
 
                 foreach (var subDir in subDirectories)
                 {
+                    result.AddDirectory(subDir);
+
                     if (delete && Directory.Exists(subDir))
                     {
                         Directory.Delete(subDir, true);
@@ -227,7 +285,10 @@ namespace SteamClientWrapper.Types
                 }
             }
 
+#pragma warning disable CS0618 // Typ oder Element ist veraltet
             result.Directories++;
+#pragma warning restore CS0618 // Typ oder Element ist veraltet
+
             if (delete)
             {
                 Directory.Delete(foundDir, true);

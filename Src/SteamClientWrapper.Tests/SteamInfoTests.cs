@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SteamClientWrapper.Types;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -99,6 +100,19 @@ namespace SteamClientWrapper.Tests
             }
 
             Assert.AreEqual(2, paths.Count);
+        }
+
+        /// <summary>
+        /// This test is not really for automated testing but more intended as entrypoint for debugging
+        /// </summary>
+        [TestMethod]
+        public void SteamInfo_CleanUpLibrary_GetCleanupReport()
+        {
+            if (info.SteamInstalled)
+            {
+                CleanupReport report = info.CleanupLibraries(false);
+                Assert.IsNotNull(report);
+            }
         }
     }
 }

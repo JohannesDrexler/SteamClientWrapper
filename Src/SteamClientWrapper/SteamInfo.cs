@@ -1,6 +1,7 @@
 using Microsoft.Win32;
 using SteamClientWrapper.Configuration;
 using SteamClientWrapper.Types;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -201,6 +202,7 @@ namespace SteamClientWrapper
         /// </summary>
         /// <param name="delete">Set this to true to delete everything that isn't supposed there</param>
         /// <returns>A summarized report accross all libraries</returns>
+        [Obsolete("This function will be removed in a later release. Function can be done better and will be reworked at a later time")]
         public async Task<CleanupReport> CleanupLibrariesAsync(bool delete = false)
         {
             CleanupReport report = await Task.Run(() => this.CleanupLibraries(delete));
@@ -214,16 +216,14 @@ namespace SteamClientWrapper
         /// <returns>A summarized report accross all libraries</returns>
         public CleanupReport CleanupLibraries(bool delete = false)
         {
-            var result = new CleanupReport();
+            CleanupReport result = new CleanupReport();
 
             List<SteamLibrary> libraries = GetLibraries();
             foreach (var lib in libraries)
             {
-                var report = lib.Cleanup(delete: delete);
+                CleanupReport report = lib.Cleanup(delete: delete);
 
-                result.Files += report.Files;
-                result.Directories += report.Directories;
-                result.Space += report.Space;
+                result.AddReport(report);
             }
 
             return result;
