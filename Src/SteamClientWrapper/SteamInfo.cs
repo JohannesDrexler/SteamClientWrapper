@@ -74,11 +74,17 @@ namespace SteamClientWrapper
             {
                 string steamDir = (string)installpath;
 
-                //normalize path
+                // Normalize path
                 steamDir = Path.GetFullPath(steamDir);
 
-                //set result if normalizing succeed
-                SteamDirectory = steamDir;
+                // Now make sure the directry as well as steam.exe both exist
+                stFound = Directory.Exists(steamDir) && File.Exists(Path.Combine(steamDir, "steam.exe"));
+
+                // Set result if double checking paths was successfull
+                if (stFound)
+                {
+                    SteamDirectory = steamDir;
+                }
             }
         }
 
