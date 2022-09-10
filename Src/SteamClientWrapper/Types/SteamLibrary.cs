@@ -2,6 +2,7 @@
 using SteamClientWrapper.Resources;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -10,6 +11,7 @@ namespace SteamClientWrapper.Types
     /// <summary>
     /// This describes a library
     /// </summary>
+    [DebuggerDisplay("{LibDirectory} ({Count} Games)")]
     public class SteamLibrary : List<SteamGame>
     {
         /// <summary>
@@ -18,7 +20,8 @@ namespace SteamClientWrapper.Types
         public ConfigurationWrapper ConfigurationWrapper { get; }
 
         /// <summary>
-        /// Directory of the library
+        /// Directory of the library.
+        /// Lower case value
         /// </summary>
         public string LibDirectory { get; }
 
@@ -124,6 +127,10 @@ namespace SteamClientWrapper.Types
             if (Directory.Exists(commonPath))
             {
                 string[] foundInCommon = Directory.GetDirectories(commonPath);
+
+                //Cast directories to lowercase
+                foundInCommon = foundInCommon.Select(str => str.ToLower()).ToArray();
+
                 foreach (var foundDir in foundInCommon)
                 {
                     string dirName = Path.GetFileName(foundDir);
