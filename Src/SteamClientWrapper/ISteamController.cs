@@ -14,7 +14,6 @@
         /// Returns true if steam is running
         /// </summary>
         /// <returns></returns>
-        /// 
         bool IsRunning();
 
         /// <summary>

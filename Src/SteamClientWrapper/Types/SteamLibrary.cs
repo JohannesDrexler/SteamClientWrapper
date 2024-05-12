@@ -211,11 +211,6 @@ namespace SteamClientWrapper.Types
 
                             FileInfo fi = new FileInfo(workshopFile);
 
-#pragma warning disable CS0618 // Typ oder Element ist veraltet
-                            result.Files++;
-                            result.Space += fi.Length;
-#pragma warning restore CS0618 // Typ oder Element ist veraltet
-
                             if (delete)
                             {
                                 fi.Delete();
@@ -248,17 +243,11 @@ namespace SteamClientWrapper.Types
             string[] files = Directory.GetFiles(foundDir, "*", SearchOption.AllDirectories);
             if (files.Length > 0)
             {
-#pragma warning disable CS0618 // Typ oder Element ist veraltet
-                result.Files += files.Length;
-#pragma warning restore CS0618 // Typ oder Element ist veraltet
                 foreach (var fil in files)
                 {
                     result.AddFile(fil);
 
                     FileInfo fi = new FileInfo(fil);
-#pragma warning disable CS0618 // Typ oder Element ist veraltet
-                    result.Space += fi.Length;
-#pragma warning restore CS0618 // Typ oder Element ist veraltet
 
                     if (delete)
                     {
@@ -270,10 +259,6 @@ namespace SteamClientWrapper.Types
             string[] subDirectories = Directory.GetDirectories(foundDir, "*", SearchOption.AllDirectories);
             if (subDirectories.Length > 0)
             {
-#pragma warning disable CS0618 // Typ oder Element ist veraltet
-                result.Directories += subDirectories.Length;
-#pragma warning restore CS0618 // Typ oder Element ist veraltet
-
                 foreach (var subDir in subDirectories)
                 {
                     result.AddDirectory(subDir);
@@ -284,10 +269,6 @@ namespace SteamClientWrapper.Types
                     }
                 }
             }
-
-#pragma warning disable CS0618 // Typ oder Element ist veraltet
-            result.Directories++;
-#pragma warning restore CS0618 // Typ oder Element ist veraltet
 
             if (delete)
             {

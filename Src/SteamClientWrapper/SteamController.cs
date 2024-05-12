@@ -23,14 +23,6 @@ namespace SteamClientWrapper
             Info = new SteamInfo();
         }
 
-        [Obsolete("Use the parameterless ctor instead.This will overload will be removed in a later version")]
-#pragma warning disable CS1591
-        public SteamController(SteamInfo info)
-        {
-            this.Info = info ?? throw new ArgumentNullException(nameof(info));
-        }
-#pragma warning restore CS1591
-
         /// <summary>
         /// Returns true if steam is running
         /// </summary>
