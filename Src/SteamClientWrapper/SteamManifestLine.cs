@@ -42,17 +42,19 @@ namespace SteamClientWrapper
             {
                 string[] splits = content.Split('"');
 
+                // Level declaration
                 if (splits.Length == 3)
                 {
                     Type = SteamManifestLineType.LevelLabel;
                     Name = splits[1].Trim().ToLowerInvariant();
                 }
 
+                // Value assignment
                 if (splits.Length == 5)
                 {
                     Type = SteamManifestLineType.Value;
                     Name = splits[1].ToLowerInvariant();
-                    Value = splits[3].ToLowerInvariant();
+                    Value = splits[3];
                 }
             }
             else
