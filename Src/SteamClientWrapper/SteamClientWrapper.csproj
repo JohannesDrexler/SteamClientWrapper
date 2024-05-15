@@ -7,7 +7,7 @@
     <DebugSymbols>true</DebugSymbols>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Johannes Drexler</Authors>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <PackageProjectUrl>https://github.com/JohannesDrexler/SteamClientWrapper</PackageProjectUrl>
     <RepositoryUrl>https://github.com/JohannesDrexler/SteamClientWrapper</RepositoryUrl>
     <Description>Wrapper for valves steam client application</Description>

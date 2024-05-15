@@ -11,25 +11,6 @@ namespace SteamClientWrapper.Types
     public class CleanupReport
     {
         /// <summary>
-        /// Diskspace in bytes
-        /// </summary>
-        [Obsolete("Use CalculateSpace() instead")]
-        public long Space { get; internal set; }
-
-        /// <summary>
-        /// Number of files
-        /// </summary>
-
-        [Obsolete("Use FilePaths and AddFile() instead")]
-        public int Files { get; internal set; }
-
-        /// <summary>
-        /// Number of directories
-        /// </summary>
-        [Obsolete("Use DirectoryPaths and AddDirectory instead")]
-        public int Directories { get; internal set; }
-
-        /// <summary>
         /// Internal list of full file paths
         /// </summary>
         private List<string> FilePathsInternal { get; }
@@ -81,16 +62,11 @@ namespace SteamClientWrapper.Types
                 throw new ArgumentNullException(nameof(report));
             }
 
-#pragma warning disable CS0618 // Typ oder Element ist veraltet
-            Files += report.Files;
-            Directories += report.Directories;
-            Space += report.Space;
-#pragma warning restore CS0618 // Typ oder Element ist veraltet
-
             foreach (string file in report.FilePaths)
             {
                 AddFile(file);
             }
+
             foreach (string directory in report.DirectoryPaths)
             {
                 AddDirectory(directory);

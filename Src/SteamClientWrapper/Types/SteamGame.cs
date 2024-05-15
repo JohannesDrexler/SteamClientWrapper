@@ -1,5 +1,4 @@
-﻿using SteamClientWrapper.Configuration;
-using SteamClientWrapper.Resources;
+﻿using SteamClientWrapper.Resources;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -61,14 +60,6 @@ namespace SteamClientWrapper.Types
             }
         }
 
-        [Obsolete("Will be removed in a later version")]
-#pragma warning disable CS1591
-        public int StateFlags
-        {
-            get { return int.Parse(Manifest.GetNodeValue("AppState", "StateFlags")); }
-        }
-#pragma warning restore CS1591
-
 
         /// <summary>
         /// Returns the State of the game
@@ -82,18 +73,6 @@ namespace SteamClientWrapper.Types
             }
         }
 
-        [Obsolete("Will be removed in a later version")]
-#pragma warning disable CS1591
-        public int AutoUpdateBehaviourFlags
-        {
-            get
-            {
-                bool parsed = int.TryParse(Manifest.GetNodeValue("AppState", "AutoUpdateBehavior"), out int result);
-                return parsed ? result : 0;
-            }
-        }
-#pragma warning restore CS1591
-
         /// <summary>
         /// Returns the Autoupdatebehavior of the game
         /// </summary>
@@ -106,23 +85,10 @@ namespace SteamClientWrapper.Types
             }
         }
 
-        [Obsolete("This property will be removed in a later version")]
-#pragma warning disable CS1591
-        public SteamUser LastOwner
-        {
-            get; private set;
-        }
-#pragma warning restore CS1591
-
         /// <summary>
         /// Gets the underlying Manifest for this installed game
         /// </summary>
         public SteamManifest Manifest { get; private set; }
-
-        [Obsolete("Property with typo, use 'ParentLibrary' instead.")]
-#pragma warning disable CS1591
-        public SteamLibrary ParentLibary => ParentLibrary;
-#pragma warning restore CS1591
 
         /// <summary>
         /// Gets the associated library where this game is installed to
@@ -156,29 +122,6 @@ namespace SteamClientWrapper.Types
         {
             ParentLibrary = parentLibrary ?? throw new ArgumentNullException(nameof(parentLibrary));
         }
-
-        [Obsolete("This will be removed in a later version")]
-#pragma warning disable CS1591
-        public SteamGame(SteamManifest manifest, ConfigurationWrapper cfgWrapper, SteamLibrary parentLibrary)
-            : this(manifest)
-        {
-            ParentLibrary = parentLibrary ?? throw new ArgumentNullException(nameof(parentLibrary));
-
-            if (cfgWrapper == null)
-            {
-                throw new ArgumentNullException(nameof(cfgWrapper));
-            }
-
-            string lastOwnerId = manifest.GetNodeValue("AppState", "LastOwner");
-            if ((!string.IsNullOrEmpty(lastOwnerId)) && (long.TryParse(lastOwnerId, out long ownerId)))
-            {
-                if (cfgWrapper.Users.TryGetValue(ownerId, out SteamUser user))
-                {
-                    LastOwner = user;
-                }
-            }
-        }
-#pragma warning restore CS1591
 
         /// <summary>
         /// Returns the icons file path of the game. This can only with a library associated

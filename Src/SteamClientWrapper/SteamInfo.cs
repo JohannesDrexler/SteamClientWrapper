@@ -1,11 +1,9 @@
 using Microsoft.Win32;
 using SteamClientWrapper.Configuration;
 using SteamClientWrapper.Types;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SteamClientWrapper
 {
@@ -195,18 +193,6 @@ namespace SteamClientWrapper
             games = games.Where(g => g.State != GameState.Installed && g.State != GameState.Uninstalled).ToList();
 
             return games;
-        }
-
-        /// <summary>
-        /// Counts and optionally deletes everything from the libraries that isn't supposed to be there
-        /// </summary>
-        /// <param name="delete">Set this to true to delete everything that isn't supposed there</param>
-        /// <returns>A summarized report accross all libraries</returns>
-        [Obsolete("This function will be removed in a later release. Function can be done better and will be reworked at a later time")]
-        public async Task<CleanupReport> CleanupLibrariesAsync(bool delete = false)
-        {
-            CleanupReport report = await Task.Run(() => this.CleanupLibraries(delete));
-            return report;
         }
 
         /// <summary>
