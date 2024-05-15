@@ -141,9 +141,6 @@ namespace SteamClientWrapper.Types
             {
                 string[] foundInCommon = Directory.GetDirectories(commonPath);
 
-                //Cast directories to lowercase
-                foundInCommon = foundInCommon.Select(str => str.ToLower()).ToArray();
-
                 foreach (var foundDir in foundInCommon)
                 {
                     string dirName = Path.GetFileName(foundDir);
